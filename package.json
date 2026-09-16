@@ -1,0 +1,40 @@
+{
+  "name": "portfolio-quality-engineering",
+  "version": "1.0.0",
+  "description": "Production-grade, independent SDET & Quality Automation Engineering Framework for the personal portfolio application of Ananth A.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:smoke": "playwright test tests/smoke",
+    "test:regression": "playwright test tests/regression",
+    "test:api": "playwright test tests/api",
+    "test:integration": "playwright test tests/integration",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "keywords": [
+    "sdet",
+    "playwright",
+    "typescript",
+    "quality-engineering",
+    "test-automation",
+    "e2e-testing"
+  ],
+  "author": "Ananth A",
+  "license": "ISC",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
+    "@playwright/test": "^1.55.1",
+    "@types/node": "^22.13.10",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.22.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
+  }
+}
