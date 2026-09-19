@@ -15,7 +15,11 @@ export default defineConfig({
   forbidOnly: envConfig.isCI,
   retries: envConfig.isCI ? 2 : 0,
   workers: 2,
-  reporter: [['html', { open: 'never' }], ['list']],
+  reporter: [
+    ['html', { open: 'never' }],
+    ['list'],
+    ['allure-playwright', { detail: true, outputFolder: 'allure-results', suiteTitle: true }],
+  ],
   use: {
     baseURL: envConfig.baseURL,
     headless: envConfig.isHeadless,

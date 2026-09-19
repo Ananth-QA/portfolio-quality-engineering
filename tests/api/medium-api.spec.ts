@@ -22,7 +22,7 @@ test.describe('Medium API Proxy Contract Tests (@api)', () => {
     if (articles.length > 0) {
       const firstArticle = articles[0];
       expect(firstArticle).toHaveProperty('title');
-      const articleUrl = firstArticle.url || firstArticle.link || firstArticle.id;
+      const articleUrl = firstArticle.url || firstArticle.link;
       expect(typeof firstArticle.title).toBe('string');
       expect(typeof articleUrl).toBe('string');
     }
@@ -37,7 +37,9 @@ test.describe('Medium API Proxy Contract Tests (@api)', () => {
     expect(contentType).toContain('application/json');
   });
 
-  test('TC-API-003: @api should handle unsupported HTTP methods gracefully', async ({ request }) => {
+  test('TC-API-003: @api should handle unsupported HTTP methods gracefully', async ({
+    request,
+  }) => {
     const client = new MediumApiClient(request);
     const response = await client.sendUnsupportedMethod('post');
 

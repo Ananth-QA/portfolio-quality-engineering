@@ -46,9 +46,11 @@ export class GlobalSearchModal {
 
   /**
    * Asserts modal dialog is open and input is focused.
+   * Maintains strict assertion integrity without conditional fallbacks.
    */
   async assertModalOpen(): Promise<void> {
     await expect(this.modalDialog).toBeVisible();
+    await expect(this.searchInput).toBeVisible();
     await expect(this.searchInput).toBeFocused();
   }
 
@@ -59,3 +61,4 @@ export class GlobalSearchModal {
     await expect(this.modalDialog).not.toBeVisible();
   }
 }
+

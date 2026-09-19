@@ -40,7 +40,8 @@ test.describe('Contact Form Integration Boundary Tests (@integration)', () => {
 
     await homePage.contactForm.submit();
 
-    // Verify form submit action was triggered
+    // Verify form submit action was triggered and request was intercepted
     await expect(homePage.contactForm.submitButton).toBeVisible();
+    expect(requestCaptured).toBeTruthy();
   });
 });

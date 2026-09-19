@@ -51,9 +51,10 @@ export class ContactForm {
   }
 
   /**
-   * Clicks form submit button.
+   * Clicks form submit button after scrolling into view.
    */
   async submit(): Promise<void> {
+    await this.submitButton.scrollIntoViewIfNeeded();
     await this.submitButton.click();
   }
 
