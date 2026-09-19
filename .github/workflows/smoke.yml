@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  BASE_URL: https://ananth-portfolio-xi.vercel.app
+  CI: 'true'
+
 jobs:
   smoke-tests:
     name: Execute Smoke Test Suite

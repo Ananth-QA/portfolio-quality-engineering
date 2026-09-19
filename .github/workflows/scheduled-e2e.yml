@@ -1,9 +1,11 @@
 name: Scheduled Full Cross-Browser Regression
 
 on:
-  schedule:
-    - cron: '0 2 * * *' # Executes daily at 02:00 UTC
   workflow_dispatch:
+
+env:
+  BASE_URL: https://ananth-portfolio-xi.vercel.app
+  CI: 'true'
 
 jobs:
   full-regression:

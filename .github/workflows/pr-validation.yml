@@ -5,6 +5,10 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+env:
+  BASE_URL: https://ananth-portfolio-xi.vercel.app
+  CI: 'true'
+
 jobs:
   smoke-validation:
     name: Smoke Test & Quality Gate
