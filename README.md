@@ -49,6 +49,8 @@ All QA strategy, technical architecture, traceability, and implementation roadma
 - 🗺️ [**Implementation Roadmap**](./docs/implementation-roadmap.md): Living 15-phase implementation plan tracking progress, status, and verification evidence.
 - 📁 [**Feature Plans Guide**](./docs/feature-plans/README.md): Guidelines for authoring feature-level test plans for high-risk or major updates.
 - 📑 [**Architecture Decisions (ADRs)**](./docs/decisions/README.md): Index of Architectural Decision Records governing technical framework choices.
+- ⚠️ [**Known Automation Issues**](./docs/known-automation-issues.md): Transparent log of active technical debt, browser compatibility, and deferred POM locators.
+- 🔍 [**Final SDET Project Audit**](./docs/project-audit-phase-10-4.md): Comprehensive Phase 10.4 audit evaluating architecture, quality gates, and maintainability.
 
 ---
 
@@ -62,10 +64,93 @@ All QA strategy, technical architecture, traceability, and implementation roadma
 
 ---
 
-## 6. Implementation Status
+## 6. Repository Structure
 
-- **Phase 0 (Planning & Architecture)**: `COMPLETE`
-- **Phase 1 (Framework Initialization)**: `COMPLETE`
-- **Phase 2 (Environment & Configuration)**: `COMPLETE`
-- **Phase 3 (Page Object & Component Architecture)**: `COMPLETE`
-- **Phase 4 (Smoke Test Suite Automation)**: `NOT STARTED`
+```text
+portfolio-quality-engineering/
+├── .github/
+│   └── workflows/
+│       ├── smoke.yml            # Primary Push/PR Smoke CI Quality Gate (5 Browsers)
+│       └── scheduled-e2e.yml    # Full Cross-Browser Regression (Manual Trigger Only)
+├── docs/                        # Complete Framework Documentation Suite
+│   ├── automation-architecture.md
+│   ├── implementation-roadmap.md
+│   ├── known-automation-issues.md
+│   ├── project-audit-phase-0-9.md
+│   ├── project-audit-phase-10-4.md
+│   ├── test-matrix.md
+│   └── test-strategy.md
+├── src/                         # Quality Engineering Source Code
+│   ├── api/                     # REST API Clients & Services
+│   ├── components/              # Component Objects (Navbar, Search, Form, etc.)
+│   ├── config/                  # Centralized Environment & URL Configuration
+│   ├── data/                    # Test Data Factories & Schemas
+│   ├── fixtures/                # Custom Playwright Fixtures
+│   ├── pages/                   # Page Object Model (BasePage, HomePage, BlogPage, etc.)
+│   └── utils/                   # Helper Utilities (a11y, formatters)
+├── tests/                       # Modular Test Suites
+│   ├── a11y/                    # Accessibility Audits (@axe-core/playwright)
+│   ├── api/                     # REST API Contract & Endpoint Tests
+│   ├── cross-browser/           # Cross-Browser Engine Compatibility Specs
+│   ├── integration/             # Component & Network Integration Tests (Mocks)
+│   ├── regression/              # Functional Regression Test Specs
+│   ├── responsive/              # Responsive Viewport Overflow & Layout Specs
+│   ├── smoke/                   # Critical Path P0 Smoke Test Suite
+│   └── visual/                  # Visual Regression Screenshot Comparison Specs
+├── .env.example                 # Environment Variable Template
+├── .gitignore                   # Git Exclusions
+├── package.json                 # Node Dependencies & Test Scripts
+├── playwright.config.ts         # Central Playwright Test Runner Configuration
+├── tsconfig.json                # TypeScript Strict Compiler Configuration
+└── README.md                    # Framework Overview & Repository Documentation
+```
+
+---
+
+## 7. Test Capabilities & Matrix
+
+| Testing Capability | Engine / Tool | Scope & Description | Key Test Location |
+| :--- | :--- | :--- | :--- |
+| **UI & E2E Testing** | Playwright (`@playwright/test`) | Black-box navigation, user journeys, modal popups, and deep links. | `tests/smoke/`, `tests/regression/` |
+| **Functional Regression** | Playwright POM Architecture | Comprehensive feature regression across projects, blogs, contact, and 404. | `tests/regression/` |
+| **API Testing** | Playwright `APIRequestContext` | Live HTTP contract validation against SUT `/api/medium` RSS proxy endpoints. | `tests/api/` |
+| **Network Integration** | Playwright `page.route()` | Offline network payload mocking for Web3Forms contact submission. | `tests/integration/` |
+| **Accessibility Audits** | `@axe-core/playwright` | Automated WCAG 2.1 Level AA compliance scans across 7 routes. | `tests/a11y/` |
+| **Visual Regression** | Playwright `toHaveScreenshot()` | Pixel-diff visual screenshot comparison with `maxDiffPixelRatio: 0.02`. | `tests/visual/` |
+| **Responsive Testing** | Playwright Viewports | Viewport layout validation across Desktop (1280x720), Tablet, and Mobile. | `tests/responsive/` |
+| **Cross-Browser** | Chromium, Firefox, WebKit | Cross-engine validation across Desktop Chrome, Firefox, Safari, Mobile. | `tests/cross-browser/` |
+| **CI/CD Quality Gates** | GitHub Actions (`smoke.yml`) | Automated typecheck (`tsc`), lint (`eslint`), test execution, and report uploads. | `.github/workflows/smoke.yml` |
+
+---
+
+## 8. CI/CD Quality Gates & Known Technical Debt Policy
+
+- **Truthful Failure Propagation**: All workflows enforce non-zero exit code failure propagation. Failures are **never suppressed**, masked with `continue-on-error`, or skipped.
+- **Active Technical Debt Log**: Unresolved mobile navigation and WebKit sticky header actionability issues are explicitly documented in [`docs/known-automation-issues.md`](./docs/known-automation-issues.md) and remain actively executed in CI:
+  - `TC-PRJ-001` (Mobile Chrome / Mobile Safari)
+  - `TC-CNT-001` (Mobile Chrome / Mobile Safari)
+  - `TC-SCH-001` (Desktop Safari)
+
+---
+
+## 9. Local Execution Commands
+
+```bash
+# Install dependencies & Playwright browsers
+npm ci
+npx playwright install --with-deps
+
+# Run type check and linting
+npm run typecheck
+npm run lint
+
+# Execute test suites
+npm run test:smoke         # Execute Smoke Suite
+npm run test:regression    # Execute Functional Regression
+npm run test:api           # Execute API Contract Tests
+npm run test:integration   # Execute Integration Mock Tests
+npm run test:a11y          # Execute Accessibility Audits
+npm run test:visual        # Execute Visual Regression Specs
+npm run test:responsive    # Execute Responsive Layout Specs
+npm run test:cross-browser # Execute Cross-Browser Specs
+```
