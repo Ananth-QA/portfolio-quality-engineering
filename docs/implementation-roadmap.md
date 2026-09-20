@@ -3,7 +3,7 @@
 > **Project**: Portfolio Quality Engineering  
 > **System Under Test**: Ananth Portfolio (`https://ananth-portfolio-xi.vercel.app/`)  
 > **Document Version**: 1.0.0  
-> **Current Phase**: Project Finalization & Showcase Readiness (Phase 11 - COMPLETED)
+> **Current Phase**: Manual QA Suite Execution Workflow (Phase 12 - COMPLETED)
 
 ---
 
@@ -31,7 +31,7 @@ As implementation work progresses, the **Status**, **Date Completed**, and **Evi
 | **Phase 9**  | **Responsive & Cross-Browser Testing**       | Author `tests/responsive/responsive.spec.ts` (Desktop, Tablet, Mobile viewports) & `tests/cross-browser/cross-browser.spec.ts` across browser engines.                        | `COMPLETED`   | Completed 2026-09-18. Implemented responsive overflow measurement & cross-browser core journey specs (`TC-RSP-001` to `004`, `TC-XB-001` to `005`). 4/4 responsive tests passed; logged SUT overflow metrics.                |
 | **Phase 10** | **CI/CD Pipeline Setup & Hardening**         | Create `.github/workflows/smoke.yml` (Primary Smoke CI), consolidate PR triggers, document known automation issues in `docs/known-automation-issues.md`.                       | `COMPLETED`   | Completed Phase 10.1 (Readiness Audit), 10.2 (CI setup & root-cause investigation), 10.3 (Quality-gate hardening & PR workflow consolidation). Preserved truthful failure propagation and artifact uploads. Deferred Navbar/WebKit remediation to Phase 10.4. |
 | **Phase 11** | **Project Finalization & Showcase Readiness**| Update `README.md` with accurate capability matrix & repo structure; consolidate accessibility test directory to `tests/a11y/`.                                          | `COMPLETED`   | Completed 2026-09-19. Finalized `README.md`, consolidated `tests/a11y/`, cross-checked documentation suite (`docs/`), documented active technical debt log.                                                          |
-| **Phase 12** | **AI-Assisted QA Integration**               | Document and integrate AI prompt templates for spec generation, trace root-cause diagnosis, and locator maintenance.                                                          | `NOT STARTED` | Integrate modern AI-assisted SDET engineering practices.                                                                                                                                                                     |
+| **Phase 12** | **Manual QA Suite Execution Workflow**       | Create `.github/workflows/manual-e2e.yml` enabling `workflow_dispatch` selection of `smoke`, `regression`, or `full` suites with automated diagnostic artifact collection.    | `COMPLETED`   | Completed 2026-09-19. Implemented `.github/workflows/manual-e2e.yml` mapping UI inputs to package scripts (`test:smoke`, `test:regression`, `test`), preserving failure propagation & reports.                          |
 | **Phase 13** | **Documentation & Final Verification Run**   | Execute full suite, record actual pass/fail metrics and execution evidence, update root `README.md` with final verification proof.                                              | `NOT STARTED` | Final audit before framework sign-off.                                                                                                                                                                                       |
 
 ---

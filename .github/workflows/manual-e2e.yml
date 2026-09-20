@@ -1,0 +1,77 @@
+name: Playwright Manual Suite Execution Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Select Playwright Test Suite to Execute'
+        required: true
+        default: 'smoke'
+        type: choice
+        options:
+          - 'smoke'
+          - 'regression'
+          - 'full'
+
+env:
+  BASE_URL: https://ananth-portfolio-xi.vercel.app
+  CI: 'true'
+
+jobs:
+  manual-suite-execution:
+    name: Manual Test Suite Execution (${{ github.event.inputs.suite }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers with Dependencies
+        run: npx playwright install --with-deps
+
+      - name: TypeScript Type Check
+        run: npm run typecheck
+
+      - name: ESLint Code Quality Check
+        run: npm run lint
+
+      - name: Execute Selected Test Suite
+        run: |
+          SUITE="${{ github.event.inputs.suite }}"
+          echo "Executing test suite: $SUITE"
+          if [ "$SUITE" = "smoke" ]; then
+            npm run test:smoke
+          elif [ "$SUITE" = "regression" ]; then
+            npm run test:regression
+          elif [ "$SUITE" = "full" ]; then
+            npm test
+          else
+            echo "Error: Unknown suite choice '$SUITE'"
+            exit 1
+          fi
+
+      - name: Upload Playwright HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-${{ github.event.inputs.suite }}-html-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload Test Results & Failure Traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.inputs.suite }}-test-results
+          path: test-results/
+          retention-days: 14
